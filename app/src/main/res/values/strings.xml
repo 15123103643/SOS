@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">sos</string>
     <string name="action_settings">Settings</string>
+    <string name="emergency_contact">紧急联络人</string>
+    <string name="My_first_aid_card">我的急救卡</string>
+    <string name="Rescue_information">救援信息</string>
+    <string name="List_for_help">求救列表</string>
+    <string name="system_stttings">系统设置</string>
 </resources>

@@ -2,9 +2,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cqeec.by.sos.MainActivity">
+    <!--紧急联络人-->
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/emergency_contact"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/emergency_contact"
+        app:showAsAction="never" />
+    <!--//我的急救卡-->
+    <item
+        android:id="@+id/My_first_aid_card"
+        android:orderInCategory="100"
+        android:title="@string/My_first_aid_card"
+        app:showAsAction="never" />
+    <!--//救援信息-->
+    <item
+        android:id="@+id/Rescue_information"
+        android:orderInCategory="100"
+        android:title="@string/List_for_help"
+        app:showAsAction="never" />
+    <!--//求救列表-->
+    <item
+        android:id="@+id/List_for_help"
+        android:orderInCategory="100"
+        android:title="@string/Rescue_information"
+        app:showAsAction="never" />
+    <!--//系统设置-->
+    <item
+        android:id="@+id/system_stttings"
+        android:orderInCategory="100"
+        android:title="@string/system_stttings"
         app:showAsAction="never" />
 </menu>
