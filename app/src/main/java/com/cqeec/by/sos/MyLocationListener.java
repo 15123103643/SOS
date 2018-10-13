@@ -2,6 +2,8 @@ package com.cqeec.by.sos;
 
 import com.baidu.location.BDAbstractLocationListener;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -10,63 +12,60 @@ import com.baidu.location.Poi;
 
 import java.util.List;
 
+import static com.cqeec.by.sos.Const.ADDRESS;
 
-class MyLocationListener extends BDAbstractLocationListener {
+
+class MyLocationListener extends BDAbstractLocationListener  {
 
 
     @Override
     public void onReceiveLocation(BDLocation location) {
 
-
         //获取定位结果
         StringBuffer sb = new StringBuffer(256);
 
-        sb.append("time : ");
+        sb.append("定位时间 : ");
         sb.append(location.getTime());    //获取定位时间
 
-        sb.append("\nerror code : ");
-        sb.append(location.getLocType());    //获取类型类型
+//        sb.append("\nerror code : ");append("\n")
+//        sb.append(location.getLocType());    //获取类型类型
 
-        sb.append("\nlatitude : ");
-        sb.append(location.getLatitude());    //获取纬度信息
 
-        sb.append("\nlontitude : ");
-        sb.append(location.getLongitude());    //获取经度信息
 
-        sb.append("\nradius : ");
-        sb.append(location.getRadius());    //获取定位精准度
+        sb.append("\n定位精度: ");
+        sb.append(location.getRadius()).append("米");    //获取定位精准度
 
         if (location.getLocType() == BDLocation.TypeGpsLocation){
 
             // GPS定位结果
-            sb.append("\nspeed : ");
-            sb.append(location.getSpeed());    // 单位：公里每小时
+//            sb.append("\nspeed : ");
+//            sb.append(location.getSpeed());    // 单位：公里每小时
+//
+//            sb.append("\nsatellite : ");
+//            sb.append(location.getSatelliteNumber());    //获取卫星数
+//
+//            sb.append("\nheight : ");
+//            sb.append(location.getAltitude());    //获取海拔高度信息，单位米
+//
+//            sb.append("\ndirection : ");
+//            sb.append(location.getDirection());    //获取方向信息，单位度
 
-            sb.append("\nsatellite : ");
-            sb.append(location.getSatelliteNumber());    //获取卫星数
+            sb.append("\n位置 : ");
+            sb.append(location.getAddrStr()).append(location.getLocationDescribe());    //获取地址信息
 
-            sb.append("\nheight : ");
-            sb.append(location.getAltitude());    //获取海拔高度信息，单位米
-
-            sb.append("\ndirection : ");
-            sb.append(location.getDirection());    //获取方向信息，单位度
-
-            sb.append("\naddr : ");
-            sb.append(location.getAddrStr());    //获取地址信息
-
-            sb.append("\ndescribe : ");
+            sb.append("\n定位方式 : ");
             sb.append("gps定位成功");
 
         } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
 
             // 网络定位结果
-            sb.append("\naddr : ");
-            sb.append(location.getAddrStr());    //获取地址信息
+            sb.append("\n位置 : ");
+            sb.append(location.getAddrStr()).append(location.getLocationDescribe());  //获取地址信息    //位置语义化信息;
 
-            sb.append("\noperationers : ");
-            sb.append(location.getOperators());    //获取运营商信息
+//            sb.append("\noperationers : ");
+//            sb.append(location.getOperators());    //获取运营商信息
 
-            sb.append("\ndescribe : ");
+            sb.append("\n定位方式 : ");
             sb.append("网络定位成功");
 
         } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
@@ -78,7 +77,7 @@ class MyLocationListener extends BDAbstractLocationListener {
         } else if (location.getLocType() == BDLocation.TypeServerError) {
 
             sb.append("\ndescribe : ");
-            sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
+            sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到1634837963@，会有人追查原因");
 
         } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
 
@@ -92,28 +91,39 @@ class MyLocationListener extends BDAbstractLocationListener {
 
         }
 
-        sb.append("\nlocationdescribe : ");
-        sb.append(location.getLocationDescribe());    //位置语义化信息
+//        sb.append("\nlocationdescribe : ");
+//        sb.append(location.getLocationDescribe());    //位置语义化信息
 
-        List<Poi> list = location.getPoiList();    // POI数据
-        if (list != null) {
-            sb.append("\npoilist size = : ");
-            sb.append(list.size());
-            for (Poi p : list) {
-                sb.append("\npoi= : ");
-                sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-            }
-        }
+//        List<Poi> list = location.getPoiList();    // POI数据
+//        if (list != null) {
+//            sb.append("\npoilist size = : ");
+//            sb.append(list.size());
+//            for (Poi p : list) {
+//                sb.append("\npoi= : ");
+//                sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
+//            }
+//        }
 
         Log.i("BaiduLocationApiDem", sb.toString());
 
         //现在已经定位成功，可以将定位的数据保存下来，这里我新建的一个Const类，保存全局静态变量
         Const.LONGITUDE = location.getLongitude();
         Const.LATITUDE = location.getLatitude();
-        Const.ADDRESS = location.getAddrStr();
+        //去掉指定字符在
+        int iFlag=-1;
+        iFlag = sb.indexOf("在");
+        if (iFlag != -1) {
+            Const.ADDRESS= sb.deleteCharAt(iFlag);
+
+
+        }
+
+
     }
 
     @Override
     public void onConnectHotSpotMessage(String s, int i) { }
+
+
 }
 

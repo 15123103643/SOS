@@ -2,6 +2,7 @@ package com.cqeec.by.sos;
 
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -9,20 +10,47 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.MapView;
 import com.cqeec.by.sos.Const;
+
+import static com.cqeec.by.sos.Const.ADDRESS;
 
 
 public class MainActivity extends AppCompatActivity {
     //绑定空间
+    private MapView mMapView = null;
+
+    //绑定空间
     private TextView position_textView;
+    //Handler 定时器的使用
+    Handler handler = new Handler();
+    Runnable update_thread =new Runnable() {
+        @Override
+        public void run() {
+
+            position_textView = findViewById(R.id.position_textView);
+            position_textView.setText(ADDRESS);
+            //秒级执行
+            handler.postDelayed(update_thread,1000);
+
+        }
+    };
+
+
+    //--------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         Toolbar toolbar =findViewById(R.id.toolbar);
         BaiduDw baiduDw = new BaiduDw(MainActivity.this);
+        handler.post(update_thread);
         baiduDw.doLocation();//开启定位
         baiduDw.mLocationClient.restart();//开始定位,异常情况重启定位
+
 
 
     }
