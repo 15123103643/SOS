@@ -6,4 +6,7 @@
     <string name="Rescue_information">救援信息</string>
     <string name="List_for_help">求救列表</string>
     <string name="system_stttings">系统设置</string>
+    <string name="emergency_call">紧急电话</string>
+    <string name="A_key_for_help">一键求救</string>
+    <string name="first_aid_knowledge">急救知识</string>
 </resources>

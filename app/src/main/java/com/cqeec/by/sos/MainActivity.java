@@ -11,49 +11,101 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
-import com.cqeec.by.sos.Const;
 
-import static com.cqeec.by.sos.Const.ADDRESS;
 
 
 public class MainActivity extends AppCompatActivity {
-    //绑定空间
-    private MapView mMapView = null;
 
-    //绑定空间
+    //地图控件
+    private MapView mapView = null;
+    //百度地图
+    public BaiduMap baiduMap;
+    //文本控件
     private TextView position_textView;
-    //Handler 定时器的使用
-    Handler handler = new Handler();
-    Runnable update_thread =new Runnable() {
-        @Override
-        public void run() {
-
-            position_textView = findViewById(R.id.position_textView);
-            position_textView.setText(ADDRESS);
-            //秒级执行
-            handler.postDelayed(update_thread,1000);
-
-        }
-    };
-
+    //p
 
     //--------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
+        //SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         Toolbar toolbar =findViewById(R.id.toolbar);
-        BaiduDw baiduDw = new BaiduDw(MainActivity.this);
-        handler.post(update_thread);
-        baiduDw.doLocation();//开启定位
-        baiduDw.mLocationClient.restart();//开始定位,异常情况重启定位
 
+        initView();
+        initMap();
 
 
     }
+
+
+    /**
+     * 初始化控件
+     */
+    public void initView(){
+
+        mapView = (MapView)findViewById(R.id.bmapView);
+    }
+
+    /**
+     * 初始化地图
+     */
+    public void initMap(){
+        //得到地图实例
+        baiduMap = mapView.getMap();
+        /*
+        设置地图类型
+         */
+        //普通地图
+        baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        //卫星地图
+        //baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+        //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
+        //baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        //开启交通图
+        baiduMap.setTrafficEnabled(true);
+        //关闭缩放按钮
+        mapView.showZoomControls(false);
+    }
+
+
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
+        mapView.onPause();
+    }
+
+
+//    public void onDestroy() {
+//        super.onDestroy();
+//        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+//        // 退出时销毁定位
+//        BaiduDw baiduDw = new BaiduDw(MainActivity.this);
+//        baiduDw.mLocationClient.unRegisterLocationListener(baiduDw.myListener);
+//        baiduDw.mLocationClient.stop();
+//        // 关闭定位图层
+//        baiduMap.setMyLocationEnabled(false);
+//        mapView.onDestroy();
+//        mapView = null;
+//    }
+    //
+
 
     @Override
     //引用菜单布局
@@ -94,4 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
