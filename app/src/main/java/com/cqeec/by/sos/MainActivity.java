@@ -1,59 +1,64 @@
 package com.cqeec.by.sos;
 
+import android.graphics.Color;
 import android.os.Bundle;
-
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.CircleOptions;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.model.LatLng;
 
 
 public class MainActivity extends AppCompatActivity {
-
     //地图控件
-    private MapView mapView = null;
+    private MapView mapView;
     //百度地图
-    public BaiduMap baiduMap;
+    private BaiduMap baiduMap;
+    //防止每次定位都重新设置中心点和marker
+    private boolean isFirstLocation = true;
+    //初始化LocationClient定位类
+    private LocationClient mLocationClient = null;
+    //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口，原有BDLocationListener接口
+    private BDLocationListener myListener = new MyLocationListener();
     //文本控件
-    private TextView position_textView;
-    //p
+    private TextView textView;
 
-    //--------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        Toolbar toolbar =findViewById(R.id.toolbar);
-
-        initView();
         initMap();
 
 
     }
 
 
-    /**
-     * 初始化控件
-     */
-    public void initView(){
-
-        mapView = (MapView)findViewById(R.id.bmapView);
-    }
 
     /**
      * 初始化地图
      */
     public void initMap(){
         //得到地图实例
+        mapView = findViewById(R.id.bmapView);
         baiduMap = mapView.getMap();
         /*
         设置地图类型
@@ -64,15 +69,56 @@ public class MainActivity extends AppCompatActivity {
         //baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
         //baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-        // 开启定位图层
-        baiduMap.setMyLocationEnabled(true);
         //开启交通图
-        baiduMap.setTrafficEnabled(true);
+        //baiduMap.setTrafficEnabled(true);
         //关闭缩放按钮
         mapView.showZoomControls(false);
+
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        //声明LocationClient类
+        mLocationClient = new LocationClient(this);
+        //注册监听函数
+        mLocationClient.registerLocationListener(myListener);
+        initLocation();
+        //开始定位
+        mLocationClient.start();
+
+
+
     }
-
-
+    /**
+     * 配置定位参数
+     */
+    private void initLocation() {
+        LocationClientOption option = new LocationClientOption();
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认gcj02，设置返回的定位结果坐标系
+        option.setCoorType("bd09ll");
+        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        int span = 5000;
+        option.setScanSpan(span);
+        //可选，设置是否需要地址信息，默认不需要
+        option.setIsNeedAddress(true);
+        //可选，默认false,设置是否使用gps
+        option.setOpenGps(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setLocationNotify(true);
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationDescribe(true);
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIsNeedLocationPoiList(true);
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.setIgnoreKillProcess(false);
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.SetIgnoreCacheException(false);
+        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        option.setEnableSimulateGps(false);
+        mLocationClient.setLocOption(option);
+    }
 
 
 
@@ -91,21 +137,18 @@ public class MainActivity extends AppCompatActivity {
         mapView.onPause();
     }
 
-
-//    public void onDestroy() {
-//        super.onDestroy();
-//        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-//        // 退出时销毁定位
-//        BaiduDw baiduDw = new BaiduDw(MainActivity.this);
-//        baiduDw.mLocationClient.unRegisterLocationListener(baiduDw.myListener);
-//        baiduDw.mLocationClient.stop();
-//        // 关闭定位图层
-//        baiduMap.setMyLocationEnabled(false);
-//        mapView.onDestroy();
-//        mapView = null;
-//    }
-    //
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        // 退出时销毁定位
+        mLocationClient.unRegisterLocationListener(myListener);
+        mLocationClient.stop();
+        // 关闭定位图层
+        baiduMap.setMyLocationEnabled(false);
+        mapView.onDestroy();
+        mapView = null;
+    }
 
     @Override
     //引用菜单布局
@@ -148,4 +191,124 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private class MyLocationListener implements BDLocationListener {
+        @Override
+       public void onReceiveLocation(BDLocation location) {
+            //获取文本实例
+            textView = findViewById(R.id.position_textView);
+//            //获取定位结果字符串
+            StringBuffer sb = new StringBuffer(256);
+
+            //插入
+            sb.append("定位时间 : ");
+            sb.append(location.getTime());    //获取定位时间
+            sb.append("\n定位精度: ");
+            sb.append(location.getRadius()).append("米");    //获取定位精准度
+
+
+            //根据定位信息显示不同的信息
+            if (location.getLocType() == BDLocation.TypeGpsLocation){
+
+                // GPS定位结果
+//            sb.append("\nspeed : ");
+//            sb.append(location.getSpeed());    // 单位：公里每小时
+//
+//            sb.append("\nsatellite : ");
+//            sb.append(location.getSatelliteNumber());    //获取卫星数
+//
+//            sb.append("\nheight : ");
+//            sb.append(location.getAltitude());    //获取海拔高度信息，单位米
+//
+//            sb.append("\ndirection : ");
+//            sb.append(location.getDirection());    //获取方向信息，单位度
+
+                sb.append("\n位置 : ");
+                sb.append(location.getAddrStr()).append(location.getLocationDescribe());    //获取地址信息
+
+                sb.append("\n定位方式 : ");
+                sb.append("gps定位成功");
+
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+
+                // 网络定位结果
+                sb.append("\n位置 : ");
+                sb.append(location.getAddrStr()).append(location.getLocationDescribe());  //获取地址信息    //位置语义化信息;
+
+//            sb.append("\noperationers : ");
+//            sb.append(location.getOperators());    //获取运营商信息
+
+                sb.append("\n定位方式 : ");
+                sb.append("网络定位成功");
+
+            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
+
+                // 离线定位结果
+                sb.append("\ndescribe : ");
+                sb.append("离线定位成功，离线定位结果也是有效的");
+
+            } else if (location.getLocType() == BDLocation.TypeServerError) {
+
+                sb.append("\ndescribe : ");
+                sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到1634837963@，会有人追查原因");
+
+            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+
+                sb.append("\ndescribe : ");
+                sb.append("网络不同导致定位失败，请检查网络是否通畅");
+
+            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+
+                sb.append("\ndescribe : ");
+                sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
+
+            }
+            //日志信息打印。便于分析数据
+            Log.i("数据分析", sb.toString());
+            //现在已经定位成功，可以将定位的数据保存下来，这里我新建的一个Const类，保存全局静态变量
+             //去掉指定字符在
+            int iFlag=-1;
+            iFlag = sb.indexOf("在");
+            if (iFlag != -1) {
+                Const.Describe= sb.deleteCharAt(iFlag);
+                textView.setText(Const.Describe);
+
+
+            }
+
+            //Const.Describe=sb.append(location.getCity()).append(location.getDistrict()).append(location.getLocationDescribe());
+//            textView.setText(Const.Describe);
+            //这个判断是为了防止每次定位都重新设置中心点和marker
+            if (isFirstLocation) {
+                isFirstLocation = false;
+                //设置并显示中心点
+                setPosition2Center(baiduMap, location, true);
+
+        }
+    }
 }
+    /**
+     * 设置中心点和添加marker
+     *
+     * @param map
+     * @param bdLocation
+     * @param isShowLoc
+     */
+    public void setPosition2Center(BaiduMap map, BDLocation bdLocation, Boolean isShowLoc) {
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(bdLocation.getRadius())
+                .direction(bdLocation.getRadius()).latitude(bdLocation.getLatitude())
+                .longitude(bdLocation.getLongitude()).build();
+        map.setMyLocationData(locData);
+
+        if (isShowLoc) {
+            LatLng ll = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
+    }
+
+
+
+}
+
