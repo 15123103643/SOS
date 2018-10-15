@@ -1,29 +1,29 @@
 package com.cqeec.by.sos;
-
-import android.graphics.Color;
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.CircleOptions;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.Stroke;
+
 import com.baidu.mapapi.model.LatLng;
 
 
@@ -40,23 +40,54 @@ public class MainActivity extends AppCompatActivity {
     private BDLocationListener myListener = new MyLocationListener();
     //文本控件
     private TextView textView;
+    //三个图片按钮
+    private ImageButton Call_phone;
+    private ImageButton SMS;
+    private ImageButton emergency_contact;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initMap();
-
+        permission_check();
+        initMap();//地图
+        phone();
 
     }
 
+    //权限检查
+    public void permission_check(){
+        //权限数组
+        final String permission[] = {Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CHANGE_WIFI_STATE };
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
+                permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    permission , 1);
+
+        }
+    }
+
+    //
+    public void phone() {
+
+        //实例化对象
+        Call_phone = findViewById(R.id.call_phone);
+        Call_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                call();
+            }
+        });
+
+    }
 
 
     /**
      * 初始化地图
      */
-    public void initMap(){
+    public void initMap() {
         //得到地图实例
         mapView = findViewById(R.id.bmapView);
         baiduMap = mapView.getMap();
@@ -87,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
         mLocationClient.start();
 
 
-
     }
+
     /**
      * 配置定位参数
      */
@@ -121,9 +152,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
+    //当该activity与用户能进行交互时被执行
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
@@ -131,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    //是当前的acitivty被暂停了_回到可交互状态，调用onResume()。
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
@@ -138,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    //退出
     public void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
@@ -168,21 +200,21 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
 
-        switch (id){
+        switch (id) {
             case R.id.emergency_contact:
-                Toast.makeText(this,"1",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.My_first_aid_card:
-                Toast.makeText(this,"2",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Rescue_information:
-                Toast.makeText(this,"3",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.List_for_help:
-                Toast.makeText(this,"4",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.system_stttings:
-                Toast.makeText(this,"5",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -190,10 +222,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    //定位数据信息处理
     private class MyLocationListener implements BDLocationListener {
         @Override
-       public void onReceiveLocation(BDLocation location) {
+        public void onReceiveLocation(BDLocation location) {
             //获取文本实例
             textView = findViewById(R.id.position_textView);
 //            //获取定位结果字符串
@@ -207,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             //根据定位信息显示不同的信息
-            if (location.getLocType() == BDLocation.TypeGpsLocation){
+            if (location.getLocType() == BDLocation.TypeGpsLocation) {
 
                 // GPS定位结果
 //            sb.append("\nspeed : ");
@@ -228,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                 sb.append("\n定位方式 : ");
                 sb.append("gps定位成功");
 
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
 
                 // 网络定位结果
                 sb.append("\n位置 : ");
@@ -265,11 +297,11 @@ public class MainActivity extends AppCompatActivity {
             //日志信息打印。便于分析数据
             Log.i("数据分析", sb.toString());
             //现在已经定位成功，可以将定位的数据保存下来，这里我新建的一个Const类，保存全局静态变量
-             //去掉指定字符在
-            int iFlag=-1;
+            //去掉指定字符在
+            int iFlag = -1;
             iFlag = sb.indexOf("在");
             if (iFlag != -1) {
-                Const.Describe= sb.deleteCharAt(iFlag);
+                Const.Describe = sb.deleteCharAt(iFlag);
                 textView.setText(Const.Describe);
 
 
@@ -283,9 +315,10 @@ public class MainActivity extends AppCompatActivity {
                 //设置并显示中心点
                 setPosition2Center(baiduMap, location, true);
 
+            }
         }
     }
-}
+
     /**
      * 设置中心点和添加marker
      *
@@ -308,7 +341,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //拨打电话的方法
+    public void call() {
+        Log.i("电话测试","电话测试");
+        try {
+            //Intent 传递
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:1"));
+            startActivity(intent);
 
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
 
+    //拒绝权限的提示
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        //grantResults 封装了授权的结果
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.
+                        PERMISSION_GRANTED) {
+
+                    phone();//电话
+                } else {
+                    Toast.makeText(this, "您拒绝了权限，请授权", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+        }
+    }
 }
 
