@@ -50,9 +50,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        permission_check();
+        permission_check();//权限检测
         initMap();//地图
-        phone();
+        phone();//电话
+//        sendMessage();//启动另外的Activity
+
+    }
+    //启动另外的Activity
+    private void sendMessage() {
+        Intent intent = new Intent(this,listviewActivity.class);
+        startActivity(intent);
 
     }
 
@@ -77,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
         Call_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                call();
+                //all();
+                sendMessage();
             }
         });
 
@@ -364,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.
                         PERMISSION_GRANTED) {
 
-                    phone();//电话
+                   // phone();//电话
                 } else {
                     Toast.makeText(this, "您拒绝了权限，请授权", Toast.LENGTH_SHORT).show();
                 }

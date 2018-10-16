@@ -20,7 +20,7 @@ android {
     //添加libs目录
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs',"src/main/jniLibs"]
+            jniLibs.srcDirs = ['libs', "src/main/jniLibs"]
         }
     }
 }
@@ -37,7 +37,4 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
 
 
-
 }
-
-
