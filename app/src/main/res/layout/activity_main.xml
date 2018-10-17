@@ -16,6 +16,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <!--引入布局-->
+    <include layout="@layout/headline"/>
     <include layout="@layout/content_main" />
 
 

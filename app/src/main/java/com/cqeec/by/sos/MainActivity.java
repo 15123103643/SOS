@@ -1,4 +1,5 @@
 package com.cqeec.by.sos;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +25,13 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
-
 import com.baidu.mapapi.model.LatLng;
+import java.io.IOException;
+import java.io.OutputStream;
+//映入类方法
+import static com.cqeec.by.sos.RootUti.isDeviceRooted;
+import static com.cqeec.by.sos.RootUti.upgradeRootPermission;
+import static com.cqeec.by.sos.RootUti.getRootAhth;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton Call_phone;
     private ImageButton SMS;
     private ImageButton emergency_contact;
+    //菜单按钮
+    private ImageButton menu2;
+    //用root权限执行Linux下的Shell指令
+    private OutputStream os;
 
 
     @Override
@@ -51,27 +62,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission_check();//权限检测
+        rootdetection();//ROOT检测 用户提示 优化效率
         initMap();//地图
         phone();//电话
-//        sendMessage();//启动另外的Activity
+        menu();//菜单选项
+
+
 
     }
+    //
+
+    //菜单选项
+    private void menu() {
+        menu2 = findViewById(R.id.Menu_Button);
+        menu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*调用isDeviceRooted()来检测是否拥有ROOT权限
+                * 如果拥有ROOT权限，则执行申请权限的操作
+                * 否则，执行为优化的按键模拟操作*/
+                if (getRootAhth()) {
+                    Log.i("ROOT检测", "onCreate: 你的设备使用的ROOT运行方式");
+                    String keyCommand = "input keyevent " + KeyEvent.KEYCODE_MENU;//需要模拟的按键
+                    exec("input keyevent " + keyCommand + "\n");
+                } else {
+                    try {
+                        Log.i("ROOT检测", "onCreate: 你的设备使用的非ROOT运行方式");
+                        String keyCommand = "input keyevent " + KeyEvent.KEYCODE_MENU;//需要模拟的按键
+                        Runtime runtime = Runtime.getRuntime();
+                        Process proc = runtime.exec(keyCommand);//将传入的参数执行
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     //启动Activity
     private void sendMessage() {
-        Intent intent = new Intent(this,listviewActivity.class);
+        Intent intent = new Intent(this, listviewActivity.class);
         startActivity(intent);
 
     }
 
     //权限检查
-    public void permission_check(){
+    public void permission_check() {
+
         //权限数组
         final String permission[] = {Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CHANGE_WIFI_STATE };
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE};
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.
                 permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
-                    permission , 1);
+                    permission, 1);
 
         }
     }
@@ -350,7 +394,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     //拒绝权限的提示
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -368,5 +411,32 @@ public class MainActivity extends AppCompatActivity {
             default:
         }
     }
+
+    /**
+     * 执行shell指令
+     *
+     * @param cmd 指令
+     */
+    public final void exec(String cmd) {
+        try {
+            if (os == null) {
+                os = Runtime.getRuntime().exec("su").getOutputStream();
+            }
+            os.write(cmd.getBytes());
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /*root权限检测
+    如果检测到权限
+    给用户一个提示*/
+    public void rootdetection(){
+
+        if (isDeviceRooted()!=getRootAhth()){
+            Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

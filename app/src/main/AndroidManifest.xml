@@ -3,6 +3,13 @@
     package="com.cqeec.by.sos">
 
     <!-- //添加所需权限 -->
+    <!-- 允许程序发送SMS短信 -->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!-- 允许程序读取短信息 -->
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <!-- 允许程序监控一个将收到短信息，记录或处理 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+
     <!-- 拨打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 允许程序打开网络套接字 -->
