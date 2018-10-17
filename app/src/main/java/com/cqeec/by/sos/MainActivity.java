@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 //        sendMessage();//启动另外的Activity
 
     }
-    //启动另外的Activity
+    //启动Activity
     private void sendMessage() {
         Intent intent = new Intent(this,listviewActivity.class);
         startActivity(intent);
@@ -349,19 +349,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //拨打电话的方法
-    public void call() {
-        Log.i("电话测试","电话测试");
-        try {
-            //Intent 传递
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:1"));
-            startActivity(intent);
 
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
 
     //拒绝权限的提示
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -372,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.
                         PERMISSION_GRANTED) {
 
-                   // phone();//电话
+                    phone();//电话
                 } else {
                     Toast.makeText(this, "您拒绝了权限，请授权", Toast.LENGTH_SHORT).show();
                 }

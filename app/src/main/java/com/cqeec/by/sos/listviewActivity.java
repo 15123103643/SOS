@@ -1,10 +1,14 @@
 package com.cqeec.by.sos;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +26,22 @@ public class listviewActivity extends AppCompatActivity {
         //初始化图标
         initFruits();
         FruitAdapter adapter = new FruitAdapter(listviewActivity.this,R.layout.fruit_item,fruitList);
+        //ListView listView =findViewById(R.id.list_view);
 
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 //                listviewActivity.this,android.R.layout.simple_list_item_1,data);
         ListView listView =findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fruit fruit =fruitList.get(position);
+               call(fruit.getName());
+            }
+        });
 
     }
-
+//J集合组
     private void initFruits() {
         for (int i = 0;i < 1 ;i++){
             Fruit call_110 = new Fruit("110",R.mipmap.call_110);
@@ -46,5 +58,21 @@ public class listviewActivity extends AppCompatActivity {
             fruitList.add(call_114);
         }
     }
+    //
+    //拨打电话的方法
+    public void call(String phone) {
+//        Log.i("电话测试","电话测试");
+        try {
+            //Intent 传递
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:"+phone));
+            startActivity(intent);
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
