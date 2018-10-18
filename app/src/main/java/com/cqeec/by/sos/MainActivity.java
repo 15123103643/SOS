@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 //映入类方法
 import static com.cqeec.by.sos.RootUti.isDeviceRooted;
-import static com.cqeec.by.sos.RootUti.upgradeRootPermission;
 import static com.cqeec.by.sos.RootUti.getRootAhth;
 
 
@@ -55,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton menu2;
     //用root权限执行Linux下的Shell指令
     private OutputStream os;
+    //数据库
+    private MyDatabaseHelper dbHelper;
 
 
     @Override
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.My_first_aid_card:
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                Create_user();
                 break;
             case R.id.Rescue_information:
                 Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
@@ -436,6 +437,12 @@ public class MainActivity extends AppCompatActivity {
         if (isDeviceRooted()!=getRootAhth()){
             Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //数据库
+    public void Create_user(){
+        dbHelper =new MyDatabaseHelper(this,"SOS.db",null,1);
+        dbHelper.getWritableDatabase();
     }
 
 }

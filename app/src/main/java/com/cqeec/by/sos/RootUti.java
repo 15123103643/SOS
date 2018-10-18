@@ -46,32 +46,7 @@ public class RootUti {
 
     }
 
-    //检测当前应用是否拥有ROOT权限
-    public static boolean upgradeRootPermission() {
-        Process process = null;
-        DataOutputStream os = null;
-        try {
-            process = Runtime.getRuntime().exec("su");
-            os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("exit\n");
-            os.flush();
-            process.waitFor();
-            return true;
-        } catch (Exception e) {
-            Log.d("*** DEBUG ***", "Unexpected error - Here is what I know: "
-                    + e.getMessage());
-            return false;
-        } finally {
-            try {
-                if (os != null) {
-                    os.close();
-                }
-                process.destroy();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
     //检测当前应用是否拥有ROOT权限
     public static boolean getRootAhth() {
         Process process = null;
