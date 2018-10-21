@@ -10,4 +10,12 @@
     <string name="A_key_for_help">一键求救</string>
     <string name="first_aid_knowledge">急救知识</string>
     <string name="SOS">SOS 紧急求救</string>
+    <string name="username">姓名</string>
+    <string name="usersfzh">身份证号</string>
+    <string name="userjtdz">家庭地址</string>
+    <string name="userxx">血型</string>
+    <string name="usergmfy">过敏反应</string>
+    <string name="userzdy">自定义</string>
+    <string name="back">返回</string>
+    <string name="save">保存</string>
 </resources>

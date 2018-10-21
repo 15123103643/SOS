@@ -36,6 +36,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 //    compile files('libs/BaiduLBS_Android.jar')
     implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'org.litepal.android:java:3.0.0'
 
 
 }
