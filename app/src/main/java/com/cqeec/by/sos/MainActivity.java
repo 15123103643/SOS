@@ -260,7 +260,10 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.emergency_contact:
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+                Intent intent1 =new Intent(MainActivity.this,ContactsActivity.class);
+                //启动
+                startActivity(intent1);
                 break;
             case R.id.My_first_aid_card:
                 Connector.getDatabase();
