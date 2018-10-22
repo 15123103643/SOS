@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -46,6 +47,8 @@ public class UserActivity extends AppCompatActivity {
         bsave();//保存按钮
         bback();//返回
         img_camera();
+        //显示
+
 
     }
 
@@ -73,17 +76,37 @@ public class UserActivity extends AppCompatActivity {
                         intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                         startActivityForResult(intent2, TAKE_PHOTO);
 
-//                    }
                 } catch (Exception e) {
                     Toast.makeText(UserActivity.this, "出现错误，请联系开发者", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
             }
+            //显示
+            public void onActityResult(int requestCode,int resultCode,Intent data){
+                switch (requestCode){
+                    case TAKE_PHOTO:
+                        if (resultCode == RESULT_OK){
+                            try {
+                                //将拍摄的照片显示出来
+                                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
+                                        .openInputStream(imageUri));
+                                ibtn.setImageBitmap(bitmap);
+                            }catch (FileNotFoundException e){
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         });
+
+
     }
     //显示
-    protected void onActityResult(int requestCode,int resultCode,Intent data){
+    public  void onActityResult(int requestCode,int resultCode,Intent data){
         switch (requestCode){
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK){
