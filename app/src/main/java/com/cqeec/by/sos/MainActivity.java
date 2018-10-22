@@ -26,8 +26,13 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+
+import org.litepal.LitePal;
+import org.litepal.tablemanager.Connector;
+
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
 //映入类方法
 import static com.cqeec.by.sos.RootUti.isDeviceRooted;
 import static com.cqeec.by.sos.RootUti.getRootAhth;
@@ -54,16 +59,15 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton menu2;
     //用root权限执行Linux下的Shell指令
     private OutputStream os;
-    //数据库
-    private MyDatabaseHelper dbHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
+        LitePal.initialize(this);
         setContentView(R.layout.activity_main);
         permission_check();//权限检测
-        rootdetection();//ROOT检测 用户提示 优化效率
         initMap();//地图
         phone();//电话
         menu();//菜单选项
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 /*调用isDeviceRooted()来检测是否拥有ROOT权限
                 * 如果拥有ROOT权限，则执行申请权限的操作
                 * 否则，执行为优化的按键模拟操作*/
+                rootdetection();//ROOT检测 用户提示 优化效率
                 if (getRootAhth()) {
                     Log.i("ROOT检测", "onCreate: 你的设备使用的ROOT运行方式");
                     String keyCommand = "input keyevent " + KeyEvent.KEYCODE_MENU;//需要模拟的按键
@@ -258,7 +263,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.My_first_aid_card:
-                Create_user();
+                Connector.getDatabase();
+                Intent intent = new Intent(this,UserActivity.class);
+                startActivity(intent);
                 break;
             case R.id.Rescue_information:
                 Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
@@ -434,16 +441,16 @@ public class MainActivity extends AppCompatActivity {
     给用户一个提示*/
     public void rootdetection(){
 
-        if (isDeviceRooted()!=getRootAhth()){
+        if (isDeviceRooted()==true){
+            if (getRootAhth()==false){
             Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
+            }
+           // Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
+            Log.i("ROOT","天使");
         }
     }
 
-    //数据库
-    public void Create_user(){
-        dbHelper =new MyDatabaseHelper(this,"SOS.db",null,1);
-        dbHelper.getWritableDatabase();
-    }
+
 
 }
 

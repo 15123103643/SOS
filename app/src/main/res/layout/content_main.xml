@@ -71,12 +71,12 @@
         android:orientation="horizontal">
 
 
-
         <ImageButton
             android:id="@+id/call_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorcalll_phone"
             android:contentDescription="@string/emergency_call"
             app:srcCompat="@mipmap/phone" />
 
@@ -85,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorcalll_phone"
             android:contentDescription="@string/A_key_for_help"
             app:srcCompat="@mipmap/help" />
 
@@ -93,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/colorcalll_phone"
             android:contentDescription="@string/emergency_contact"
             app:srcCompat="@mipmap/knowledge" />
     </LinearLayout>

@@ -10,4 +10,22 @@
     <string name="A_key_for_help">一键求救</string>
     <string name="first_aid_knowledge">急救知识</string>
     <string name="SOS">SOS 紧急求救</string>
+    <string name="username">姓名</string>
+    <string name="usersfzh">身份证号</string>
+    <string name="userjtdz">家庭地址</string>
+    <string name="userxx">血型</string>
+    <string name="usergmfy">过敏反应</string>
+    <string name="userzdy">自定义</string>
+    <string name="back">返回</string>
+    <string name="save">保存</string>
+    <string name="First_aid_tips">以便救援人员能及时帮助您脱离危险</string>
+    <string name="hint">及时更新您的急救卡</string>
+    <string name="todo">TODO</string>
+    <string name="todo2">TODO</string>
+    <string name="sfzhm">身份证号码</string>
+    <string name="Uname">您的名字</string>
+    <string name="ndzz">你的住址</string>
+    <string name="ndxx">您的血型</string>
+    <string name="gmfyh">对什么药物过敏</string>
+    <string name="zdyh">您想对急救人员知道的其他事项</string>
 </resources>

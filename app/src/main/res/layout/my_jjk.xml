@@ -7,22 +7,35 @@
     android:background="@color/colorcall_text">
 
 
-    <ImageButton
-        android:id="@+id/Menu_Button"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/bback"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/menu" />
+        android:layout_weight="1"
+
+        android:background="@color/colorcall_text"
+        android:text="@string/back"
+        android:textColor="@color/Headline_text" />
 
     <TextView
         android:id="@+id/Headline_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="50dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:text="@string/SOS"
         android:textColor="@color/Headline_text"
-        android:text="@string/SOS" />
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bsave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorcall_text"
+        android:text="@string/save"
+        android:textColor="@color/Headline_text" />
 
 
 </LinearLayout>

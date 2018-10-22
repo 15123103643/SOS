@@ -36,15 +36,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/todo"
             android:src="@mipmap/head_portrait" />
 
@@ -64,11 +64,8 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Uname"
-
-                android:importantForAutofill="no"
                 android:inputType="textNoSuggestions"
-                tools:targetApi="o" />
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -91,10 +88,8 @@
             android:id="@+id/sfzh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/sfzhm"
-            android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
-            tools:targetApi="o" />
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView5"
@@ -106,10 +101,8 @@
             android:id="@+id/jtdz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ndzz"
-            android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            tools:targetApi="o" />
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView6"
@@ -121,10 +114,8 @@
             android:id="@+id/xx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ndxx"
-            android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
-            tools:targetApi="o" />
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView7"
@@ -136,10 +127,8 @@
             android:id="@+id/gmfy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/gmfyh"
-            android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            tools:targetApi="o" />
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView8"
@@ -151,10 +140,8 @@
             android:id="@+id/zdy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/zdyh"
-            android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            tools:targetApi="o" />
+            android:importantForAutofill="no" />
     </LinearLayout>
 
 
