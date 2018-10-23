@@ -1,6 +1,8 @@
 package com.cqeec.by.sos;
 
-public class Userjjlxr {
+import org.litepal.crud.LitePalSupport;
+
+public class Userjjlxr extends LitePalSupport {
     private String U_name;
     private String U_phone;
     private String U_email;

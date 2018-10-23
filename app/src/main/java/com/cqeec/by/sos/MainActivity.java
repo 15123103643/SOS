@@ -3,7 +3,6 @@ package com.cqeec.by.sos;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -32,10 +32,11 @@ import org.litepal.tablemanager.Connector;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.Connection;
-//映入类方法
-import static com.cqeec.by.sos.RootUti.isDeviceRooted;
+
 import static com.cqeec.by.sos.RootUti.getRootAhth;
+import static com.cqeec.by.sos.RootUti.isDeviceRooted;
+
+//映入类方法
 
 
 public class MainActivity extends AppCompatActivity {
@@ -266,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent1);
                 break;
             case R.id.My_first_aid_card:
+                //LitePal.getDatabase();
                 Connector.getDatabase();
                 Intent intent = new Intent(this,UserActivity.class);
                 startActivity(intent);

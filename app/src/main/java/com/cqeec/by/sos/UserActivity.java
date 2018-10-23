@@ -1,40 +1,51 @@
 package com.cqeec.by.sos;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.litepal.LitePal;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
 
 public class UserActivity extends AppCompatActivity {
+    //
+    private static final int CODE_GALLERY_REQUEST = 0xa0;
+    private static final int CODE_CAMERA_REQUEST = 0xa1;
+    private static final int CODE_RESULT_REQUEST = 0xa2;
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
+    private File fileCropUri = new File(Environment.getExternalStorageDirectory().getPath() + "/crop_photo.jpg");
+    //private Uri imageUri;
+    private Uri cropImageUri;
+
+
     public static final int TAKE_PHOTO = 1;
     private Button bback, bsave;//按钮
     private EditText user_name, user_sfzh, user_jtdz, user_xx, user_gmfy, user_zdy;//输入框
     private ImageButton ibtn;//头像
-    private Uri imageUri;
+    private Uri imageUri;//
+
+    /**
+     * 检查设备是否存在SDCard的工具方法
+     */
+    public static boolean hasSdcard() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,88 +54,66 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         ActionBar();//隐藏自带标题
         Edit();//实例化控件
-        Select();
         bsave();//保存按钮
         bback();//返回
         img_camera();
+        Select();
         //显示
 
 
     }
 
+    //图片按钮
     private void img_camera() {
         ibtn.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                File outputImage = new File(getExternalCacheDir()+"/images/", "output_Uname.jpg");
-                try {
-                    if (!outputImage.getParentFile().exists()) {
-                        outputImage.getParentFile().mkdir();
-                    }
 
-                        Log.i("jpg", outputImage.getAbsolutePath());
-                        if (Build.VERSION.SDK_INT >= 24) {
-                            imageUri = FileProvider.getUriForFile(UserActivity.this,
-                                    "com.cqeec.by.sos.fileprovider", outputImage);
-                        } else {
-                            imageUri = Uri.fromFile(outputImage);
-                        }
-                        //启动相机程序
-                        Intent intent2 = new Intent("android.media.action.IMAGE_CAPTURE");
-                        intent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent2.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                        startActivityForResult(intent2, TAKE_PHOTO);
 
-                } catch (Exception e) {
-                    Toast.makeText(UserActivity.this, "出现错误，请联系开发者", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this)
+                        .setIcon(R.drawable.ic_launcher_background)
+                        .setTitle("选择图片：")
+                        //设置两个item
+                        .setItems(new String[]{"相机", "图库", "取消"}, new android.content.DialogInterface.OnClickListener() {
 
-            }
-            //显示
-            public void onActityResult(int requestCode,int resultCode,Intent data){
-                switch (requestCode){
-                    case TAKE_PHOTO:
-                        if (resultCode == RESULT_OK){
-                            try {
-                                //将拍摄的照片显示出来
-                                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
-                                        .openInputStream(imageUri));
-                                ibtn.setImageBitmap(bitmap);
-                            }catch (FileNotFoundException e){
-                                e.printStackTrace();
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        camera();
+                                        break;
+                                    case 1:
+                                        photo();
+                                        break;
+                                    default:
+                                        break;
+                                }
+
                             }
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                        });
+                builder.create().show();
+
+
             }
+
+
         });
 
 
     }
-    //显示
-    public  void onActityResult(int requestCode,int resultCode,Intent data){
-        switch (requestCode){
-            case TAKE_PHOTO:
-                if (resultCode == RESULT_OK){
-                    try {
-                        //将拍摄的照片显示出来
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver()
-                                .openInputStream(imageUri));
-                        ibtn.setImageBitmap(bitmap);
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }
-                }
-                break;
-                default:
-                    break;
+
+    //相机
+    public void camera() {
+        if (hasSdcard()) {
+            imageUri = Uri.fromFile(fileUri);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                //通过FileProvider创建一个content类型的Uri
+                imageUri = FileProvider.getUriForFile(UserActivity.this, "com.cqeec.by.sos.fileprovider", fileUri);
+            PhotoUtils.takePicture(UserActivity.this, imageUri, CODE_CAMERA_REQUEST);
+        } else {
+            Toast.makeText(UserActivity.this, "设备没有SD卡！", Toast.LENGTH_SHORT).show();
+            Log.e("asd", "设备没有SD卡");
         }
     }
-
     //返回
     private void bback() {
         bback.setOnClickListener(new View.OnClickListener() {
@@ -136,16 +125,9 @@ public class UserActivity extends AppCompatActivity {
         });
     }
 
-    //查询表数据,用户第二次进入的数据显示
-    private void Select() {
-        UserDB userDB = LitePal.find(UserDB.class, 1);
-        user_name.setText(userDB.getU_name());
-        user_gmfy.setText(userDB.getU_gmfy());
-        user_jtdz.setText(userDB.getU_jtdz());
-        user_sfzh.setText(userDB.getU_sfzh());
-        user_zdy.setText(userDB.getU_zdy());
-        user_xx.setText(userDB.getU_xx());
-
+    //相册
+    public void photo() {
+        PhotoUtils.openPic(UserActivity.this, CODE_GALLERY_REQUEST);
     }
 
     //绑定控件
@@ -160,10 +142,36 @@ public class UserActivity extends AppCompatActivity {
         user_zdy = findViewById(R.id.zdy);
     }
 
+    //查询表数据,用户第二次进入的数据显示
+    private void Select() {
+        UserDB userDB = LitePal.find(UserDB.class, 1);
+        if (userDB.getId() != 1) {
+
+        } else {
+            user_name.setText(userDB.getU_name());
+            user_gmfy.setText(userDB.getU_gmfy());
+            user_jtdz.setText(userDB.getU_jtdz());
+            user_sfzh.setText(userDB.getU_sfzh());
+            user_zdy.setText(userDB.getU_zdy());
+            user_xx.setText(userDB.getU_xx());
+        }
+
+    }
+
+    //隐藏自带标题
+    public void ActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+
+        }
+    }
+
     //保存按钮
     public void bsave() {
         //查询ID等于1的数据
         final UserDB userDB = LitePal.find(UserDB.class, 1);
+        //List<UserDB> userDB = LitePal.findAll(UserDB.class);
         if (userDB.getId() == 1) {
             bsave = findViewById(R.id.bsave);
             bsave.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +192,6 @@ public class UserActivity extends AppCompatActivity {
                     db.setU_zdy(zdy);
                     Log.i("用户数据", "修改数据");
                     db.update(userDB.getId());
-
                     Toast.makeText(UserActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(UserActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -195,7 +202,6 @@ public class UserActivity extends AppCompatActivity {
             bsave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     UserDB db = new UserDB();
                     db.setU_name(user_name.getText().toString());
                     db.setU_sfzh(user_sfzh.getText().toString());
@@ -205,7 +211,6 @@ public class UserActivity extends AppCompatActivity {
                     db.setU_zdy(user_zdy.getText().toString());
                     Log.i("用户数据", "保存数据");
                     db.save();
-
                     Toast.makeText(UserActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(UserActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -216,12 +221,54 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
-    //隐藏自带标题
-    public void ActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-
+    /* -----------------------------------------------*/
+   /*
+   拍照完成后的回调函数
+   */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int output_X = 480, output_Y = 480;
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CODE_CAMERA_REQUEST://拍照完成回调
+                    cropImageUri = Uri.fromFile(fileCropUri);
+                    PhotoUtils.cropImageUri(this, imageUri, cropImageUri, 1, 1, output_X, output_Y, CODE_RESULT_REQUEST);
+                    break;
+                case CODE_GALLERY_REQUEST://访问相册完成回调
+                    if (hasSdcard()) {
+                        cropImageUri = Uri.fromFile(fileCropUri);
+                        Uri newUri = Uri.parse(PhotoUtils.getPath(this, data.getData()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            newUri = FileProvider.getUriForFile(this, "com.cqeec.by.sos.fileprovider", new File(newUri.getPath()));
+                        PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, output_X, output_Y, CODE_RESULT_REQUEST);
+                    } else {
+                        Toast.makeText(UserActivity.this, "设备没有SD卡!", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case CODE_RESULT_REQUEST:
+                    Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
+                    if (bitmap != null) {
+                        showImages(bitmap);
+                    }
+                    break;
+            }
         }
     }
+
+    /*
+    将图片显示到桌面
+    */
+    private void showImages(Bitmap bitmap) {
+        UserDB db = new UserDB();
+
+        ibtn.setImageBitmap(bitmap);
+
+    }
+
 }
+
+
+
+
+

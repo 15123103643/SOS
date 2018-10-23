@@ -1,7 +1,6 @@
 package com.cqeec.by.sos;
 
 import org.litepal.crud.LitePalSupport;
-import org.litepal.exceptions.DataSupportException;
 
 public class UserDB extends LitePalSupport {
     private int id;
