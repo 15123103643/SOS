@@ -33,6 +33,7 @@ public class PhotoUtils {
         }
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
+
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         activity.startActivityForResult(intentCamera, requestCode);
     }

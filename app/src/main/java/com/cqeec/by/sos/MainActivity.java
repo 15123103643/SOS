@@ -2,8 +2,12 @@ package com.cqeec.by.sos;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +35,13 @@ import com.baidu.mapapi.model.LatLng;
 import org.litepal.LitePal;
 import org.litepal.tablemanager.Connector;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import static com.cqeec.by.sos.RootUti.getRootAhth;
 import static com.cqeec.by.sos.RootUti.isDeviceRooted;
+
 
 //映入类方法
 
@@ -51,15 +58,20 @@ public class MainActivity extends AppCompatActivity {
     //BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口，原有BDLocationListener接口
     private BDLocationListener myListener = new MyLocationListener();
     //文本控件
-    private TextView textView;
+    private TextView textView, textViewname, textViewtime;
     //三个图片按钮
     private ImageButton Call_phone;
     private ImageButton SMS;
     private ImageButton emergency_contact;
+    private ImageView photo2;//头像
+
     //菜单按钮
     private ImageButton menu2;
     //用root权限执行Linux下的Shell指令
     private OutputStream os;
+    //
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
+
 
 
     @Override
@@ -72,9 +84,65 @@ public class MainActivity extends AppCompatActivity {
         initMap();//地图
         phone();//电话
         menu();//菜单选项
+        emergency_contact();//急救
+        //获取时间
+        time();
+        img_set();//显示用户头像
 
 
+    }
 
+    private void img_set() {
+        photo2 = findViewById(R.id.photo2);
+        try {
+            Bitmap bmp = BitmapFactory.decodeFile(fileUri.toString());
+            photo2.setImageBitmap(bmp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //获取用户使用时间
+    public void time() {
+        textViewtime = findViewById(R.id.time);
+        textViewname = findViewById(R.id.username2);
+        //获取时间
+        PackageManager packageManager = this.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+            long firstInstallTime = packageInfo.firstInstallTime;//应用第一次安装的时间
+            long time2 = System.currentTimeMillis();//获取系统时间的10位的时间戳
+            long c = time2 - firstInstallTime;
+            long ti = c / 1000 / (60 * 60 * 24);
+            String c2 = String.valueOf(ti);
+            Log.i("应用3", c2);
+            textViewtime.setText(c2 + "天");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UserDB userDB = LitePal.findFirst(UserDB.class);
+        if (userDB != null) {
+            textViewname.setText(userDB.getU_name());
+
+        } else {
+
+        }
+
+    }
+
+
+    private void emergency_contact() {
+        emergency_contact = findViewById(R.id.emergency_contact);
+        emergency_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, jszsActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
     //
 
@@ -84,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         menu2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Connector.getDatabase();
                 /*调用isDeviceRooted()来检测是否拥有ROOT权限
                 * 如果拥有ROOT权限，则执行申请权限的操作
                 * 否则，执行为优化的按键模拟操作*/
@@ -127,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //
+    //打电话
     public void phone() {
 
         //实例化对象
@@ -268,7 +337,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.My_first_aid_card:
                 //LitePal.getDatabase();
-                Connector.getDatabase();
+                //SQLiteDatabase db = Connector.getDatabase();
+                //Connector.getDatabase();
                 Intent intent = new Intent(this,UserActivity.class);
                 startActivity(intent);
                 break;
