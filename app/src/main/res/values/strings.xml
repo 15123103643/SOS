@@ -30,4 +30,14 @@
     <string name="zdyh">您想对急救人员知道的其他事项</string>
     <string name="time">安全度过</string>
     <string name="name1">  </string>
+    <string name="tqjb">极端天气警报</string>
+    <string name="zrzhjb">自然灾害警报</string>
+    <string name="yqjb">疫情警报</string>
+    <string name="zbxqjb">周边险情警报</string>
+    <string name="xttz">系统通知</string>
+    <string name="update">版本更新</string>
+    <string name="smddjb">睡眠地震警报</string>
+    <string name="hidedk">打开后将开启对应功能</string>
+    <string name="hidedd">开启后出现疑似地震震动将发出警报</string>
+
 </resources>

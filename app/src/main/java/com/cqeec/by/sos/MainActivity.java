@@ -349,6 +349,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.system_stttings:
+                Intent intent2 = new Intent(this, YjActivity.class);
+                startActivity(intent2);
                 Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -521,7 +523,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
             }
            // Toast.makeText(MainActivity.this,"检测到ROOT权限,请授权!",Toast.LENGTH_SHORT).show();
-            Log.i("ROOT","天使");
+            Log.i("ROOT", "检测");
         }
     }
 

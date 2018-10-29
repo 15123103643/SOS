@@ -95,7 +95,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".jszsActivity"></activity>
+        <activity android:name=".jszsActivity" />
+        <activity android:name=".YjActivity"></activity>
     </application>
 
 </manifest>
