@@ -97,6 +97,16 @@
 
         <activity android:name=".jszsActivity" />
         <activity android:name=".YjActivity"></activity>
+        <activity
+            android:name=".ContactsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".AddContacts"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
