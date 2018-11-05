@@ -39,5 +39,7 @@
     <string name="smddjb">睡眠地震警报</string>
     <string name="hidedk">打开后将开启对应功能</string>
     <string name="hidedd">开启后出现疑似地震震动将发出警报</string>
-
+    <string name="StopMusic">停止警报</string>
+    <string name="userLogin">登录</string>
+    <string name="userlogout">注销</string>
 </resources>

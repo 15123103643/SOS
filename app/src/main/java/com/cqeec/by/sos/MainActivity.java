@@ -336,22 +336,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent1);
                 break;
             case R.id.My_first_aid_card:
-                //LitePal.getDatabase();
-                //SQLiteDatabase db = Connector.getDatabase();
-                //Connector.getDatabase();
+
                 Intent intent = new Intent(this,UserActivity.class);
                 startActivity(intent);
                 break;
             case R.id.Rescue_information:
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "1.0版本，暂不支持服务器相关服务!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.List_for_help:
-                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "1.0版本，暂不支持服务器相关服务!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.system_stttings:
                 Intent intent2 = new Intent(this, YjActivity.class);
                 startActivity(intent2);
-                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
+
                 break;
 
         }

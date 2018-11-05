@@ -1,16 +1,20 @@
 package com.cqeec.by.sos;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import java.util.Map;
-
 public class YjActivity extends AppCompatActivity {
+    private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +36,40 @@ public class YjActivity extends AppCompatActivity {
 
     }
 
-    //读取开关状态
+    //读取开关状态--没思路实现
     public void myPreference1() {
         //获取SharedPreferences对象
         SharedPreferences myPreference = getSharedPreferences("myPreference", Context.MODE_PRIVATE);
-        // boolean age=myPreference.getBoolean("1", false);单个键值
-        Map<String, ?> allMaps = myPreference.getAll();//所有的键值
-        Log.i("预警", allMaps.toString());
+        boolean age = myPreference.getBoolean("1", false);//单个键值
+        boolean age2 = myPreference.getBoolean("2", false);//单个键值
+        boolean age3 = myPreference.getBoolean("3", false);//单个键值
+        boolean age4 = myPreference.getBoolean("4", false);//单个键值
+        boolean age5 = myPreference.getBoolean("5", false);//单个键值
+        boolean age6 = myPreference.getBoolean("6", false);//单个键值
+        boolean age7 = myPreference.getBoolean("7", false);//单个键值
 
-
+        /* Map<String, ?> allMaps = myPreference.getAll();//所有的键值
+        //Log.i("预警", allMaps.toString());
+        Iterator<String> it = allMaps.keySet().iterator();  //map.keySet()得到的是set集合，可以使用迭代器遍历
+        while(it.hasNext()){
+            String key = it.next();
+            Log.i("预警","key值："+key+" value值："+allMaps.get(key));*/
     }
 
     private void setSwitch() {
+        //愚蠢的方法
+        //获取SharedPreferences对象
+        SharedPreferences myPreference = getSharedPreferences("myPreference", Context.MODE_PRIVATE);
+        boolean age = myPreference.getBoolean("1", false);//单个键值
+        boolean age2 = myPreference.getBoolean("2", false);//单个键值
+        boolean age3 = myPreference.getBoolean("3", false);//单个键值
+        boolean age4 = myPreference.getBoolean("4", false);//单个键值
+        boolean age5 = myPreference.getBoolean("5", false);//单个键值
+        boolean age6 = myPreference.getBoolean("6", false);//单个键值
+        boolean age7 = myPreference.getBoolean("7", false);//单个键值
+         /*-------
+
+        -----*/
         final Switch aSwitch = (Switch) findViewById(R.id.switch1);
         final Switch bSwitch = (Switch) findViewById(R.id.switch2);
         final Switch cSwitch = (Switch) findViewById(R.id.switch3);
@@ -52,7 +78,7 @@ public class YjActivity extends AppCompatActivity {
         final Switch fSwitch = (Switch) findViewById(R.id.switch6);
         final Switch gSwitch = (Switch) findViewById(R.id.switch7);
 
-        aSwitch.setChecked(false);
+        aSwitch.setChecked(age);
         aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -67,7 +93,7 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        bSwitch.setChecked(false);
+        bSwitch.setChecked(age2);
         bSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         bSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,7 +108,7 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        cSwitch.setChecked(false);
+        cSwitch.setChecked(age3);
         cSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         cSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -97,7 +123,7 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        dSwitch.setChecked(false);
+        dSwitch.setChecked(age4);
         dSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         dSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -112,7 +138,7 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        eSwitch.setChecked(false);
+        eSwitch.setChecked(age5);
         eSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         eSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -127,7 +153,7 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        fSwitch.setChecked(false);
+        fSwitch.setChecked(age6);
         fSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         fSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -142,7 +168,8 @@ public class YjActivity extends AppCompatActivity {
                 }
             }
         });
-        gSwitch.setChecked(false);
+        gSwitch.setChecked(age7);
+
         gSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
         gSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -151,12 +178,52 @@ public class YjActivity extends AppCompatActivity {
                 if (b) {
                     aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
                     myPreference("7", b);
+                    Intent startIntent = new Intent(YjActivity.this, MyServiceDzYj.class);
+                    startService(startIntent);//开启服务
+                    sendChatMsg();
                 } else {
                     aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
                     myPreference("7", b);
+
+                    Intent stopIntent = new Intent(YjActivity.this, MyServiceDzYj.class);
+
+                    stopService(stopIntent);//停止服务
+                    sendSubscribeMsg();
+
+
+
+
                 }
             }
         });
 
     }
+    //测试
+
+    public void sendChatMsg() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(this, "chat")
+                .setContentTitle("收到一条预警消息")
+                .setContentText("地震预警已开启，请放心休息！")
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setAutoCancel(true)
+                .build();
+        manager.notify(1, notification);
+    }
+
+    public void sendSubscribeMsg() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(this, "subscribe")
+                .setContentTitle("收到一条预警消息")
+                .setContentText("地震预警已关闭！")
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setAutoCancel(true)
+                .build();
+        manager.notify(2, notification);
+    }
+
 }
