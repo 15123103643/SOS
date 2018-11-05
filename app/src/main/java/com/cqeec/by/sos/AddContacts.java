@@ -59,6 +59,7 @@ public class AddContacts extends AppCompatActivity {
         values.put("name",Uname);
         values.put("phone",Uphone);
         values.put("email",Uemail);
+
         long rowId=db.insert( "User",null,values);
         if(rowId!=-1){
             Toast.makeText(this,"数据插入成功",Toast.LENGTH_LONG).show();
