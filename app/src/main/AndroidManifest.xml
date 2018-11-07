@@ -85,11 +85,7 @@
             android:grantUriPermissions="true">
 
             <!-- 1 . android:exported:要求必须为false，为true则会报安全异常； -->
-
-
             <!-- 2 . android:grantUriPermissions:true，表示授予 URI 临时访问权限； -->
-
-
             <!-- 3 . android:authorities这个属性的值，建议写包名+fileprovider，当然也可以起别的字符串，但是在设备中不能出现2个及以上的APP使用到同一个authorities属性值，因为无法共存。 -->
 
             <meta-data
@@ -97,8 +93,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".jszsActivity" />
-        <activity android:name=".YjActivity" />
+        <activity
+            android:name=".jszsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".YjActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ContactsActivity"
             android:label="@string/app_name"
@@ -113,7 +113,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".dzMusicActivity"></activity>
+        <activity
+            android:name=".dzMusicActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
     </application>
 
 </manifest>

@@ -6,6 +6,9 @@
     android:orientation="vertical"
     tools:context=".YjActivity">
 
+    <!--引入布局-->
+    <include layout="@layout/my_zdy" />
+
 
     <LinearLayout
         android:layout_width="match_parent"

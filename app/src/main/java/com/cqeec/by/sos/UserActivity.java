@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -122,14 +123,38 @@ public class UserActivity extends AppCompatActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this)
-                        .setIcon(R.drawable.ic_launcher_background)
-                        .setTitle("选择图片：")
-                        //设置两个item
-                        .setItems(new String[]{"相机", "图库", "取消"}, new android.content.DialogInterface.OnClickListener() {
-
+//                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this)
+//                        .setIcon(R.mipmap.select)
+//                        .setTitle("选择图片：")
+//
+//                        //设置两个item
+//                        .setItems(new String[]{"相机", "图库", "取消"}, new android.content.DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                switch (which) {
+//                                    case 0:
+//                                        camera();
+//                                        break;
+//                                    case 1:
+//                                        photo();
+//                                        break;
+//                                    default:
+//                                        break;
+//                                }
+//
+//                            }
+//                        });
+//                builder.create().show();
+                final String[] names = {"相机", "图库", "取消"};// 列表中显示的内容组成的数组
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this);
+                builder.setTitle("图片选择");
+                builder.setIcon(R.mipmap.select);
+                BaseAdapter adapter = new UserSelectAdapter(UserActivity.this, names);
+                DialogInterface.OnClickListener listener =
+                        new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int which) {
                                 switch (which) {
                                     case 0:
                                         camera();
@@ -142,8 +167,10 @@ public class UserActivity extends AppCompatActivity {
                                 }
 
                             }
-                        });
-                builder.create().show();
+                        };
+                builder.setAdapter(adapter, listener);
+                builder.create();
+                builder.show();
 
 
             }
@@ -177,7 +204,7 @@ public class UserActivity extends AppCompatActivity {
             user_zdy.setText(userDB.getU_zdy());
             user_xx.setText(userDB.getU_xx());
         } else {
-            Toast.makeText(UserActivity.this, "数据加载失败，请联系开发者", Toast.LENGTH_SHORT).show();
+            Log.i("用户数据", "Select: 数据加载失败");
         }
 
     }
