@@ -15,7 +15,7 @@ public class UpdateContacts extends AppCompatActivity {
     private EditText name;
     private EditText phone;
     private EditText email;
-    private Button btn;
+    private Button btn,btn1;
     private MyOpenHelper helper;
     private Cursor cursor;
     @Override
@@ -29,13 +29,19 @@ public class UpdateContacts extends AppCompatActivity {
 //        cursor=helper.getReadableDatabase().query("User",null,null,null,null,null,null);
         show();
         btn=(Button)findViewById(R.id.btn);
+        btn1=(Button)findViewById(R.id.btn1);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Update();
             }
         });
-
+        btn1.setOnClickListener(new View.OnClickListener() {
+    @Override
+        public void onClick(View v) {
+        finish();
+    }
+});
     }
 
 
