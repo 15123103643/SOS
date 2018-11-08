@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 
-//适配器
+//适配器---phone
 public class FruitAdapter extends ArrayAdapter<Fruit> {
     private int resourceId;
 
@@ -46,11 +46,6 @@ public class FruitAdapter extends ArrayAdapter<Fruit> {
         }
         viewHolder.fruitImage.setImageResource(fruit.getImageId());
         viewHolder.fruitname.setText(fruit.getName());
-//        //获取资源的id，并且赋值
-//        ImageView fruitImage =view.findViewById(R.id.fruit_image);
-//        TextView fruitname = view.findViewById(R.id.fruit_name);
-//        fruitImage.setImageResource(fruit.getImageId());
-//        fruitname.setText(fruit.getName());
         return view;
     }
 }

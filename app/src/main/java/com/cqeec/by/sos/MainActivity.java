@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     //启动Activity
     private void sendMessage() {
-        Intent intent = new Intent(this, listviewActivity.class);
+        Intent intent = new Intent(this, PhoneActivity.class);
         startActivity(intent);
 
     }

@@ -11,10 +11,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class listviewActivity extends AppCompatActivity {
-    private String[] data={"110","120","119","122","12395","114"};
-
-    //
+public class PhoneActivity extends AppCompatActivity {
+    //声明list集合数组
     private List<Fruit> fruitList = new ArrayList<>();
 
     @Override
@@ -23,7 +21,11 @@ public class listviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listview);
         //初始化图标
         initFruits();
-        FruitAdapter adapter = new FruitAdapter(listviewActivity.this,R.layout.fruit_item,fruitList);
+        FruitAdapter adapter = new FruitAdapter(PhoneActivity.this,R.layout.fruit_item,fruitList);
+        /*这里有三个参000000000000000000000000000000000000000000000000000000000000数，分别表示：
+        当前上下文（context）
+        子项布局的id（textViewResourceId）:这里的布局是使用了系统自带的
+        要适配的数据（objects）*/
         ListView listView =findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -35,9 +37,8 @@ public class listviewActivity extends AppCompatActivity {
         });
 
     }
-//J集合组
+//集合组
     private void initFruits() {
-        for (int i = 0;i < 1 ;i++){
             Fruit call_110 = new Fruit("110",R.mipmap.call_110);
             fruitList.add(call_110);
             Fruit call_120 = new Fruit("120",R.mipmap.call_120);
@@ -50,7 +51,6 @@ public class listviewActivity extends AppCompatActivity {
             fruitList.add(call_12395);
             Fruit call_114 = new Fruit("114",R.mipmap.call_114);
             fruitList.add(call_114);
-        }
     }
     //
     //拨打电话的方法

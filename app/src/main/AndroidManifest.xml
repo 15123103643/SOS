@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- 允许程序发送SMS短信 -->
+
     <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- 允许程序读取短信息 -->
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -75,7 +76,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".listviewActivity" />
+        <activity android:name=".PhoneActivity" />
         <activity android:name=".UserActivity" />
 
         <provider
