@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "1.0版本，暂不支持服务器相关服务!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.system_stttings:
-                Intent intent2 = new Intent(this, YjActivity.class);
+                Intent intent2 = new Intent(this, SettingActivity.class);
                 startActivity(intent2);
 
                 break;

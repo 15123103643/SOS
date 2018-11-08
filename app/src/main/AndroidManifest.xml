@@ -98,7 +98,7 @@
             android:name=".jszsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".YjActivity"
+            android:name=".SettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ContactsActivity"

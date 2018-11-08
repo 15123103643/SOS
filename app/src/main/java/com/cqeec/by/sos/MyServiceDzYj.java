@@ -139,7 +139,7 @@ public class MyServiceDzYj extends Service implements SensorEventListener {
             /*Log.i("加速度2",sY);
             Log.i("加速度3",sZ);*/
             //由于该接口函数不断刷新，所以可以把控件显示函数放在这里显示
-            int medumValue = 11;// 如果不敏感请自行调低该数值,低于10的话就不行了,因为z轴上的加速度本身就已经达到10了
+            int medumValue = 12;// 如果不敏感请自行调低该数值,低于10的话就不行了,因为z轴上的加速度本身就已经达到10了
 
             float x = mLastX; // x轴方向的重力加速度，向右为正
             float y = mLastY; // y轴方向的重力加速度，向前为正

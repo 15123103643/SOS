@@ -8,7 +8,7 @@ public class jszsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jszs);
+        setContentView(R.layout.activity_jjzs);
 
 
     }

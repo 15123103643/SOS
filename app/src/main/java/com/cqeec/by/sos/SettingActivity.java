@@ -13,13 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-public class YjActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yj);
+        setContentView(R.layout.activity_setting);
         setSwitch();//开关字体
         myPreference1();
 
@@ -47,13 +47,6 @@ public class YjActivity extends AppCompatActivity {
         boolean age5 = myPreference.getBoolean("5", false);//单个键值
         boolean age6 = myPreference.getBoolean("6", false);//单个键值
         boolean age7 = myPreference.getBoolean("7", false);//单个键值
-
-        /* Map<String, ?> allMaps = myPreference.getAll();//所有的键值
-        //Log.i("预警", allMaps.toString());
-        Iterator<String> it = allMaps.keySet().iterator();  //map.keySet()得到的是set集合，可以使用迭代器遍历
-        while(it.hasNext()){
-            String key = it.next();
-            Log.i("预警","key值："+key+" value值："+allMaps.get(key));*/
     }
 
     private void setSwitch() {
@@ -79,113 +72,113 @@ public class YjActivity extends AppCompatActivity {
         final Switch gSwitch = (Switch) findViewById(R.id.switch7);
 
         aSwitch.setChecked(age);
-        aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("1", b);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("1", b);
                 }
             }
         });
         bSwitch.setChecked(age2);
-        bSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        bSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         bSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
                     myPreference("2", b);
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("2", b);
                 }
             }
         });
         cSwitch.setChecked(age3);
-        cSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        cSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         cSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("3", b);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("3", b);
                 }
             }
         });
         dSwitch.setChecked(age4);
-        dSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        dSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         dSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("4", b);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("4", b);
                 }
             }
         });
         eSwitch.setChecked(age5);
-        eSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        eSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         eSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("5", b);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("5", b);
                 }
             }
         });
         fSwitch.setChecked(age6);
-        fSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        fSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         fSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("6", b);
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("6", b);
                 }
             }
         });
         gSwitch.setChecked(age7);
 
-        gSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+        gSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
         gSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //控制开关字体颜色
                 if (b) {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_true);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_true);
                     myPreference("7", b);
-                    Intent startIntent = new Intent(YjActivity.this, MyServiceDzYj.class);
+                    Intent startIntent = new Intent(SettingActivity.this, MyServiceDzYj.class);
                     startService(startIntent);//开启服务
                     sendChatMsg();
                 } else {
-                    aSwitch.setSwitchTextAppearance(YjActivity.this, R.style.s_false);
+                    aSwitch.setSwitchTextAppearance(SettingActivity.this, R.style.s_false);
                     myPreference("7", b);
 
-                    Intent stopIntent = new Intent(YjActivity.this, MyServiceDzYj.class);
+                    Intent stopIntent = new Intent(SettingActivity.this, MyServiceDzYj.class);
 
                     stopService(stopIntent);//停止服务
                     sendSubscribeMsg();
