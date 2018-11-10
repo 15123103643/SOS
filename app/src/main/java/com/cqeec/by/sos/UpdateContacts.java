@@ -59,9 +59,10 @@ public class UpdateContacts extends AppCompatActivity {
         if(line>0){
             Toast.makeText(UpdateContacts.this,"联系人修改成功", Toast.LENGTH_SHORT).show();
         }
-        Intent intent =new Intent(UpdateContacts.this,ContactsActivity.class);
-        //启动
-        startActivity(intent);
+//        Intent intent =new Intent(UpdateContacts.this,ContactsActivity.class);
+//        //启动
+//        startActivity(intent);
+        finish();
     }
     public  void show(){
         /*获取Intent中的Bundle对象*/
