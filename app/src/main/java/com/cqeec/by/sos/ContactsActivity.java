@@ -29,6 +29,7 @@ public class ContactsActivity  extends AppCompatActivity {
         helper=new MyOpenHelper(this);
         list=(ListView)findViewById(R.id.list);
         queryshow();
+        onResume();
         btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +94,7 @@ public class ContactsActivity  extends AppCompatActivity {
                                 Toast.makeText(ContactsActivity.this,"数据删除成功", Toast.LENGTH_SHORT).show();
                             }
                             db.close();
+                            onResume();
 
                         }
                     });
@@ -157,6 +159,9 @@ public class ContactsActivity  extends AppCompatActivity {
 //        //启动
 //        startActivity(intent);
 //    }
-
+protected void onResume() {
+    super.onResume();
+    queryshow();//刷新数据
+}
 
 }
