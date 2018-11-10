@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".YjActivity">
+    tools:context=".SettingActivity">
+
+    <!--引入布局-->
+    <include layout="@layout/my_zdy" />
 
 
     <LinearLayout
@@ -29,21 +32,17 @@
             android:orientation="horizontal">
 
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/tqjb" />
-
             <Switch
                 android:id="@+id/switch1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/tqjb"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -53,21 +52,18 @@
             android:layout_weight="1"
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/zrzhjb" />
 
             <Switch
                 android:id="@+id/switch2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/zrzhjb"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -77,21 +73,18 @@
             android:layout_weight="1"
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/yqjb" />
 
             <Switch
                 android:id="@+id/switch3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/yqjb"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -101,21 +94,18 @@
             android:layout_weight="1"
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/zbxqjb" />
 
             <Switch
                 android:id="@+id/switch4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/zbxqjb"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -125,21 +115,18 @@
             android:layout_weight="1"
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/xttz" />
 
             <Switch
                 android:id="@+id/switch5"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/xttz"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -149,21 +136,18 @@
             android:layout_weight="1"
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/update" />
 
             <Switch
                 android:id="@+id/switch6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/update"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -174,20 +158,17 @@
             android:background="@drawable/layer_list"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/smddjb" />
-
             <Switch
                 android:id="@+id/switch7"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:showText="true"
+                android:text="@string/smddjb"
+                android:textOff="off"
+                android:textOn="on"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 
@@ -210,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/colorAccent"
-                android:text="Button"
+                android:text="@string/userLogin"
                 android:textStyle="bold" />
 
         </LinearLayout>

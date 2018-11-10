@@ -54,6 +54,7 @@ public class AddContacts extends AppCompatActivity {
             Toast.makeText(AddContacts.this, "联系人信息请填完整",Toast.LENGTH_LONG).show();
         }else{
         SQLiteDatabase db=helper.getReadableDatabase();
+//
 //        插入数据(表名，空值列名，对象)
         ContentValues values=new ContentValues();
         values.put("name",Uname);

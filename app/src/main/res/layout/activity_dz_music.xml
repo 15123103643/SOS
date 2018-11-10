@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
+    tools:context=".dzMusicActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <!--不要顶部标题栏-->
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/my_zdy" />
+
+
+    <Button
+        android:id="@+id/b_stop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/StopMusic"
+        android:textSize="50sp"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="233dp" />
+</LinearLayout>

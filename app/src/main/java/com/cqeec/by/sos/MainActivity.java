@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         emergency_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, jszsActivity.class);
+                Intent intent = new Intent(MainActivity.this, jjzsActivity.class);
                 startActivity(intent);
 
             }
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
     //启动Activity
     private void sendMessage() {
-        Intent intent = new Intent(this, listviewActivity.class);
+        Intent intent = new Intent(this, PhoneActivity.class);
         startActivity(intent);
 
     }
@@ -394,22 +394,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent1);
                 break;
             case R.id.My_first_aid_card:
-                //LitePal.getDatabase();
-                //SQLiteDatabase db = Connector.getDatabase();
-                //Connector.getDatabase();
+
                 Intent intent = new Intent(this,UserActivity.class);
                 startActivity(intent);
                 break;
             case R.id.Rescue_information:
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "1.0版本，暂不支持服务器相关服务!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.List_for_help:
-                Toast.makeText(this, "4", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "1.0版本，暂不支持服务器相关服务!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.system_stttings:
-                Intent intent2 = new Intent(this, YjActivity.class);
+                Intent intent2 = new Intent(this, SettingActivity.class);
                 startActivity(intent2);
-                Toast.makeText(this, "5", Toast.LENGTH_SHORT).show();
+
                 break;
 
         }
