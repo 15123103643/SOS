@@ -67,6 +67,7 @@ public class ContactsActivity  extends AppCompatActivity {
                     builder.setTitle("操作");
                     //    设置Content来显示一个信息
                     builder.setMessage("选择你的操作");
+//
                     //    设置一个PositiveButton
                     builder.setPositiveButton("修改", new DialogInterface.OnClickListener()
                     {
