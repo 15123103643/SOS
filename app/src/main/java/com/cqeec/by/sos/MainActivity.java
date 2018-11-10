@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         emergency_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, jszsActivity.class);
+                Intent intent = new Intent(MainActivity.this, jjzsActivity.class);
                 startActivity(intent);
 
             }

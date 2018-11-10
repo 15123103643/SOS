@@ -81,6 +81,7 @@ public class dzMusicActivity extends Activity {
 
     }
 
+    //警用返回
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         switch (keyCode) {

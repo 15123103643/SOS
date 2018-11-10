@@ -95,7 +95,7 @@
         </provider>
 
         <activity
-            android:name=".jszsActivity"
+            android:name=".jjzsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingActivity"
