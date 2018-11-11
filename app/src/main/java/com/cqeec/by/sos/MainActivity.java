@@ -4,13 +4,18 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,6 +43,11 @@ import org.litepal.tablemanager.Connector;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import static com.cqeec.by.sos.RootUti.getRootAhth;
 import static com.cqeec.by.sos.RootUti.isDeviceRooted;
@@ -71,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
     private OutputStream os;
     //
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
-
-
+    private MyOpenHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //
+        helper=new MyOpenHelper(this);
         LitePal.initialize(this);
         setContentView(R.layout.activity_main);
         permission_check();//权限检测
@@ -88,9 +98,57 @@ public class MainActivity extends AppCompatActivity {
         //获取时间
         time();
         img_set();//显示用户头像
-
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+        }
+        SMS=findViewById(R.id.SMS);
+        SMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "测试短信", Toast.LENGTH_SHORT).show();
+                sendSMS();
+            }
+        });
 
     }
+    public void sendSMS() {
+        Map map = new HashMap();
+        SQLiteDatabase db=helper.getReadableDatabase();
+        Cursor  cursor= db.query("user", new String[] { "phone" },null, null, null,null, null, null);
+        if(cursor.moveToFirst()){
+            int next=1;
+            map.put("phone",cursor.getString(cursor.getColumnIndex("phone")));
+          while (cursor.moveToNext())
+          {
+              map.put("phone"+next,cursor.getString(cursor.getColumnIndex("phone")));
+              next++;
+          }
+
+            List list = new ArrayList();
+            list.add(map);
+            Const cnt=new Const();
+            for (int i=0;i<list.size();i++)
+            {
+                Map  map1=(Map)list.get(i);
+                Iterator iterator = map1.keySet().iterator();
+                while (iterator.hasNext())
+                {
+                    String key = (String) iterator.next();
+                    Object object = map1.get(key);
+                    System.out.println(object);
+                    SendSMS sendMsg = new SendSMS( "我在"+cnt.Describe.toString()+"遇到危险，帮忙报警",object.toString());
+                    Log.i("SMStest","pull");
+                }
+            }
+            Toast.makeText(this,"短信发送成功",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"没有联系人信息，请在紧及联络人中添加",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+
 
     private void img_set() {
         photo2 = findViewById(R.id.photo2);
@@ -491,6 +549,18 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "您拒绝了权限，请授权", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            default:
+        }
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //这里写操作 如send（）； send函数中New SendMsg （号码，内容）；
+
+                } else {
+                    Toast.makeText(this, "你没启动权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
             default:
         }
     }

@@ -9,11 +9,10 @@
     tools:context=".UserActivity">
 
     <include layout="@layout/my_jjk" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <TextView
@@ -34,13 +33,12 @@
             android:gravity="center"
             android:text="@string/First_aid_tips" />
 
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="2"
         android:orientation="horizontal">
 
         <com.cqeec.by.sos.CircleImageView
@@ -159,5 +157,6 @@
             android:inputType="textMultiLine"
             tools:targetApi="o" />
     </LinearLayout>
+
 
 </LinearLayout>
