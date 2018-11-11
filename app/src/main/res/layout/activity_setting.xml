@@ -186,12 +186,12 @@
                 android:text="@string/hidedd" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/colorAccent"
-                android:text="@string/userLogin"
+                android:text="用户管理"
                 android:textStyle="bold" />
 
         </LinearLayout>

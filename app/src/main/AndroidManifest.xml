@@ -78,6 +78,7 @@
 
         <activity android:name=".PhoneActivity" />
         <activity android:name=".UserActivity" />
+        <activity android:name=".LogonActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -117,8 +118,7 @@
         <activity
             android:name=".dzMusicActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>

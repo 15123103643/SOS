@@ -10,7 +10,7 @@
     <string name="A_key_for_help">一键求救</string>
     <string name="first_aid_knowledge">急救知识</string>
     <string name="SOS">SOS 紧急求救</string>
-    <string name="username">姓名</string>
+    <string name="username">   </string>
     <string name="usersfzh">身份证号</string>
     <string name="userjtdz">家庭地址</string>
     <string name="userxx">血型</string>
@@ -29,7 +29,6 @@
     <string name="gmfyh">对什么药物过敏</string>
     <string name="zdyh">您想对急救人员知道的其他事项</string>
     <string name="time">安全度过</string>
-    <string name="name1">  </string>
     <string name="tqjb">极端天气警报</string>
     <string name="zrzhjb">自然灾害警报</string>
     <string name="yqjb">疫情警报</string>
@@ -40,6 +39,13 @@
     <string name="hidedk">打开后将开启对应功能</string>
     <string name="hidedd">开启后出现疑似地震震动将发出警报</string>
     <string name="StopMusic">停止警报</string>
-    <string name="userLogin">登录</string>
     <string name="userlogout">注销</string>
+    <string name="l_user">用户名</string>
+    <string name="l_password">密码</string>
+    <string name="l_password2">确认密码</string>
+    <string name="l_findpd">密钥</string>
+    <string name="login">注册</string>
+    <string name="logon">登录</string>
+
+
 </resources>

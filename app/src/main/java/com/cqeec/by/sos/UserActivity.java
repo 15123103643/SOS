@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -18,13 +19,18 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.wkp.runtimepermissions.callback.PermissionCallBack;
+import com.wkp.runtimepermissions.util.RuntimePermissionUtil;
 
 import org.litepal.LitePal;
 
 import java.io.File;
 
 public class UserActivity extends AppCompatActivity {
+    @RequiresApi(api = Build.VERSION_CODES.M)
 
     //
     private static final int CODE_GALLERY_REQUEST = 0xa0;
@@ -32,7 +38,6 @@ public class UserActivity extends AppCompatActivity {
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri cropImageUri;
-
 
     private Button bback, bsave;//按钮
     private EditText user_name, user_sfzh, user_jtdz, user_xx, user_gmfy, user_zdy;//输入框
@@ -58,7 +63,7 @@ public class UserActivity extends AppCompatActivity {
         bback();//返回
         img_camera();//头像的保存
         Select();//显示用户数据
-        img_set();//显示用户头像
+        //img_set();//显示用户头像
 
 
     }
@@ -80,7 +85,11 @@ public class UserActivity extends AppCompatActivity {
     public void img_set() {
         try {
             Bitmap bmp = BitmapFactory.decodeFile(fileUri.toString());
-            photo.setImageBitmap(bmp);
+            if (bmp==null){
+
+            }else {
+                photo.setImageBitmap(bmp);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,16 +99,36 @@ public class UserActivity extends AppCompatActivity {
 
     //相机
     public void camera() {
-        if (hasSdcard()) {
-            imageUri = Uri.fromFile(fileUri);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                //通过FileProvider创建一个content类型的Uri
-                imageUri = FileProvider.getUriForFile(UserActivity.this, "com.cqeec.by.sos.fileprovider", fileUri);
-            PhotoUtils.takePicture(UserActivity.this, imageUri, CODE_CAMERA_REQUEST);
-        } else {
-            Toast.makeText(UserActivity.this, "设备没有SD卡！", Toast.LENGTH_SHORT).show();
-            Log.e("asd", "设备没有SD卡");
-        }
+        applyPermission();
+    }
+
+    //权限
+    public void applyPermission() {
+        //权限检查，回调是权限申请结果
+        RuntimePermissionUtil.checkPermissions(this, RuntimePermissionUtil.CAMERA, new PermissionCallBack() {
+            @Override
+            public void onCheckPermissionResult(boolean hasPermission) {
+                if (hasPermission) {
+                    //直接做具有权限后的操作
+                    if (hasSdcard()) {
+                        imageUri = Uri.fromFile(fileUri);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            //通过FileProvider创建一个content类型的Uri
+                            imageUri = FileProvider.getUriForFile(UserActivity.this, "com.cqeec.by.sos.fileprovider", fileUri);
+                        PhotoUtils.takePicture(UserActivity.this, imageUri, CODE_CAMERA_REQUEST);
+                    } else {
+                        Toast.makeText(UserActivity.this, "设备没有SD卡！", Toast.LENGTH_SHORT).show();
+                        Log.e("asd", "设备没有SD卡");
+                    }
+                    Toast.makeText(UserActivity.this, "权限申请成功", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    //显示权限不具备的界面
+                    Toast.makeText(UserActivity.this, "权限申请失败", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
     }
 
     //返回
@@ -123,29 +152,6 @@ public class UserActivity extends AppCompatActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-//                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this)
-//                        .setIcon(R.mipmap.select)
-//                        .setTitle("选择图片：")
-//
-//                        //设置两个item
-//                        .setItems(new String[]{"相机", "图库", "取消"}, new android.content.DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                switch (which) {
-//                                    case 0:
-//                                        camera();
-//                                        break;
-//                                    case 1:
-//                                        photo();
-//                                        break;
-//                                    default:
-//                                        break;
-//                                }
-//
-//                            }
-//                        });
-//                builder.create().show();
                 final String[] names = {"相机", "图库", "取消"};// 列表中显示的内容组成的数组
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this);
                 builder.setTitle("图片选择");

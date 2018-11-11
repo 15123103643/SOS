@@ -37,4 +37,5 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     implementation 'org.litepal.android:java:3.0.0'
 //    implementation files('libs/litepal-2.0.0.jar')
+    implementation 'com.wkp:RuntimePermission:1.0.6'//权限库
 }
