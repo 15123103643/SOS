@@ -46,6 +46,8 @@
     <string name="l_findpd">密钥</string>
     <string name="login">注册</string>
     <string name="logon">登录</string>
+    <string name="miyao"> 找回密码的凭证</string>
+    <string name="userxieyi">点击注册即同意《法律声明和隐私策略》</string>
 
 
 </resources>

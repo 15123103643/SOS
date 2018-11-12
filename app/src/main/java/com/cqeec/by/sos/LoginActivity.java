@@ -1,34 +1,40 @@
 package com.cqeec.by.sos;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 
-public class LoginActivity extends AppCompatActivity {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class LoginActivity extends Activity {
+    private String url = "http://132.232.27.164/login.php";
+    private int status;
+    private JSONObject json = new JSONObject();
+    private Handler handler;
 
     public static final String TAG="LoginActivity";
     private Button login;
     private Button cancle;
-    private TextView textView;
-    private String response;
-    private EditText inputId_P;
+
     private EditText username;
     private EditText password;
     private EditText password2;
@@ -41,122 +47,158 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initViews();
         login();
+        cancle();
+    }
+
+    private void cancle() {
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,LogonActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void login() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                username = findViewById(R.id.I_username);
+                password = findViewById(R.id.I_pd);
+                password2 = findViewById(R.id.I_pd2);
+                findpd = findViewById(R.id.I_fd);
+
+                sendRequesWithOkHttp();
             }
         });
     }
 
-    private void showDialog() {
-        AlertDialog.Builder builder=new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle("添加个人信息");
-        View view= View.inflate(LoginActivity.this,R.layout.activity_login,null);
-        builder.setView(view);
-
-
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener(){
-
+    private void sendRequesWithOkHttp() {
+        handler = new Handler(){
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String Id_P=inputId_P.getText().toString();
-                String LastName=username.getText().toString();
-                String FirstName=password.getText().toString();
-                String Address=password.getText().toString();
-                String City=findpd.getText().toString();
-                try {
-                    jsonObject.put("username",Id_P);
-                    jsonObject.put("password",LastName);
-                    jsonObject.put("findpd",FirstName);
-                    jsonObject.put("Address",Address);
-                    jsonObject.put("City",City);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                };
-                send();
-            }
-        });
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener(){
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void handleMessage(Message msg)
+            {
+                super.handleMessage(msg);
+                if (msg.what==123)
+                {
+                    //跳转到登录成功的界面
+                    Toast.makeText(LoginActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, LogonActivity.class);
+                    startActivity(intent);
+                }
+                else if (msg.what == 234)
+                {
+                    Toast.makeText(LoginActivity.this, "已有该用户名", Toast.LENGTH_SHORT).show();
+                }else  if (msg.what==345){
+                    Toast.makeText(LoginActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
+                }else if (msg.what==456){
+                    Toast.makeText(LoginActivity.this, "未知错误，可能是网络原因", Toast.LENGTH_SHORT).show();
+                }else if (msg.what==567){
+                    Toast.makeText(LoginActivity.this, "用户名丶密码丶密钥不能为空", Toast.LENGTH_SHORT).show();
+                }else if (msg.what==1234){
+                    Toast.makeText(LoginActivity.this, "注册成功，用户名中的空格已自动删除,", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, LogonActivity.class);
+                    startActivity(intent);
+                }
 
             }
-        });
+        };
 
-        AlertDialog ad=builder.create();
-        ad.show();
-
-        username= (EditText)ad.findViewById(R.id.l_username);
-        password= (EditText)ad.findViewById(R.id.l_pd);
-        password= (EditText)ad.findViewById(R.id.l_pd2);
-        findpd  = (EditText)ad.findViewById(R.id.l_fd);
-
-
-
-    }
-    private void send() {
+        //开启线程来执行网络访问
         new Thread(new Runnable() {
             @Override
             public void run() {
-                executeHttpPost();
+                String uname = username.getText().toString();
+                String pd = password.getText().toString();
+                String pd2 = password2.getText().toString();
+                String fpd = findpd.getText().toString();
+                try {
+                    json.put("username", uname);
+                    json.put("password", pd);
+                    json.put("password2", pd2);
+                    json.put("findpd", fpd);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String jsonStr = json.toString();
+                HttpUtils.postJson(url, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e("TAG", "NetConnect error!");
+                    }
+
+                    @Override
+                    //回调
+                    public void onResponse(Call call, Response response) throws IOException {
+                        //String responseStr = response.toString();
+                        String responseBodyStr = response.body().string();
+                        try {
+
+                            //获取返回的json数据，为{"success":"success"}形式.
+                            //JSONArray jsonArray = new JSONArray(responseBodyStr);
+                            JSONObject jsonData = new JSONObject(responseBodyStr);
+                            String resultStr = jsonData.getString( "success");
+
+                            if (resultStr.equals("success")) //注册成功，发送消息
+                            {
+
+                                    Message msg = handler.obtainMessage();
+                                    msg.what = 123;
+                                    handler.sendMessage(msg);
+
+                            }
+                            else if(resultStr.equals("failed")) //注册失败
+                            {
+                                Message msg = handler.obtainMessage();
+                                msg.what = 234;
+                                handler.sendMessage(msg);
+                            }else if (resultStr.equals("error")){
+                                Message msg = handler.obtainMessage();
+                                msg.what = 345;
+                                handler.sendMessage(msg);
+                            }else if (resultStr.equals("errornull")){
+                                Message msg = handler.obtainMessage();
+                                msg.what = 567;
+                                handler.sendMessage(msg);
+                            }else if (resultStr.equals("StringNull")){
+                                Message msg = handler.obtainMessage();
+                                msg.what = 1234;
+                                handler.sendMessage(msg);
+                            }
+                            else {
+                                Message msg = handler.obtainMessage();
+                                msg.what = 456;
+                                handler.sendMessage(msg);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+
+                }, jsonStr);
+
+
             }
         }).start();
-
-    }
-    JSONObject jsonObject=new JSONObject();
-    private void executeHttpPost() {
-
-        String path="http://127.0.0.1/android_connect/create_person.php";
-        try {
-            URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //conn.setConnectTimeout(3000);     //设置连接超时时间
-            conn.setDoOutput(true);  //打开输出流，以便向服务器提交数据
-            conn.setDoInput(true);  //打开输入流，以便从服务器获取数据
-            conn.setUseCaches(false);//使用Post方式不能使用缓存
-            conn.setRequestMethod("POST");  //设置以Post方式提交数据
-            //conn.setRequestProperty("Connection", "Keep-Alive");
-            conn.setRequestProperty("Charset", "UTF-8");
-            // 设置文件类型:
-            //conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            // 设置接收类型否则返回415错误
-            //conn.setRequestProperty("accept","*/*")此处为暴力方法设置接受所有类型，以此来防范返回415;
-            conn.setRequestProperty("accept","application/json");
-
-            // 往服务器里面发送数据
-            String Json=jsonObject.toString();
-
-            System.out.println("-----------    "+Json);
-
-            if (Json != null && !TextUtils.isEmpty(Json)) {
-                byte[] writebytes = Json.getBytes();
-                // 设置文件长度
-                conn.setRequestProperty("Content-Length", String.valueOf(writebytes.length));
-                OutputStream outwritestream = conn.getOutputStream();
-                outwritestream.write(Json.getBytes());
-                outwritestream.flush();
-                outwritestream.close();
-                Log.i("upload: ", "doJsonPost: "+conn.getResponseCode());//如输出200，则对了
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
 
+    //预处理空间
     private void initViews() {
-        login =findViewById(R.id.login);
+        login =findViewById(R.id.login2);
+
+
         cancle= findViewById(R.id.cancle);
 
     }
+
+    
+
 
 }

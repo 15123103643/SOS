@@ -3,88 +3,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <include layout="@layout/my_zdy"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_weight="3"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/texiview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/l_user" />
-
-        <EditText
-            android:id="@+id/l_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/l_password" />
-
-        <EditText
-            android:id="@+id/l_pd"
+            android:id="@+id/textView19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPassword" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/l_password2" />
+            android:gravity="bottom"
+            android:text="姓名："
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/l_pd2"
+            android:id="@+id/I_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/edit_bg"
+            android:ems="10"
+            android:inputType="text" />
+
+
+        <TextView
+            android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPassword" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/l_findpd" />
+            android:gravity="bottom"
+            android:text="密码："
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/l_fd"
+            android:id="@+id/I_pd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/edit_bg"
+
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="确认密码："
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/I_pd2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/edit_bg"
+
+            android:ems="10"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="密匙："
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/I_fd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/edit_bg"
+
+            android:ems="10"
+            android:inputType="textPassword" />
 
     </LinearLayout>
 
@@ -95,18 +97,31 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
+            android:id="@+id/login2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="@string/login" />
+            android:background="@drawable/edit_bg"
+            android:text="注册" />
 
         <Button
             android:id="@+id/cancle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="@string/back" />
+            android:background="@drawable/edit_bg"
+            android:text="返回" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="@string/userxieyi" />
 
 </LinearLayout>

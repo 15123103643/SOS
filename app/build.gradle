@@ -37,5 +37,7 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     implementation 'org.litepal.android:java:3.0.0'
 //    implementation files('libs/litepal-2.0.0.jar')
-    implementation 'com.wkp:RuntimePermission:1.0.6'//权限库
+    implementation 'com.wkp:RuntimePermission:1.0.6'//权限库框架
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'//网络连接（okhttp）库
+    implementation 'com.google.code.gson:gson:2.8.5' //JSON 库
 }

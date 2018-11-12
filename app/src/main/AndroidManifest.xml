@@ -51,7 +51,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+
+        android:usesCleartextTraffic="true">
+
 
         <!-- 定位 -->
         <meta-data
@@ -125,6 +128,9 @@
             android:name=".dzMusicActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity" />
+
+
+
     </application>
 
 </manifest>
