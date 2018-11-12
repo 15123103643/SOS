@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.My_first_aid_card:
 
-                Intent intent = new Intent(this,UserActivity.class);
+                Intent intent = new Intent(MainActivity.this,UserActivity.class);
                 startActivity(intent);
                 break;
             case R.id.Rescue_information:
