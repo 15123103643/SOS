@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactsActivity  extends AppCompatActivity {
-    private Button btn;
+    private Button btn,btn3;
     private ListView list;
     private MyOpenHelper helper;
 
@@ -31,6 +31,7 @@ public class ContactsActivity  extends AppCompatActivity {
         queryshow();
         onResume();
         btn = findViewById(R.id.button);
+        btn3 = findViewById(R.id.btn3);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +39,12 @@ public class ContactsActivity  extends AppCompatActivity {
                 Intent intent =new Intent(ContactsActivity.this,AddContacts.class);
                 //启动
                 startActivity(intent);
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

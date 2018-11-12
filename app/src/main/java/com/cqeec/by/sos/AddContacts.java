@@ -63,7 +63,7 @@ public class AddContacts extends AppCompatActivity {
 
         long rowId=db.insert( "User",null,values);
         if(rowId!=-1){
-            Toast.makeText(this,"数据插入成功",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"数据添加成功",Toast.LENGTH_LONG).show();
         }
         db.close();
 //        Intent intent =new Intent(AddContacts.this,ContactsActivity.class);
